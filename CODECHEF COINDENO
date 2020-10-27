@@ -1,0 +1,91 @@
+// DP question
+// Learner99 
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#define ll long long
+#define int long long
+
+#define N 1000005
+
+int dp[N];
+
+int inf=1e18;
+int mod=1e9+7;
+
+int32_t main()
+{
+
+        ios_base::sync_with_stdio(0);
+        cin.tie(0);
+
+        int n,m,c;
+        cin>>n>>c>>m;
+
+        vector < int > a(n),w(n);
+        for(int i=0;i<n;i++)
+        {
+                cin>>a[i]>>w[i];
+        }
+
+        for(int i=1;i<N;i++)
+                dp[i]=inf;
+
+        for(int i=0;i<n;i++)
+        {
+                for(int j=a[i];j<N;j++)
+                        dp[j]=min(dp[j-a[i]]+w[i],dp[j]);
+        }
+
+        for(int j=0;j<N;j++)
+        {
+                if(dp[j]!=inf)
+                        dp[j]%=mod;
+        }
+
+
+
+        while(m--)
+        {
+                int t;
+                cin>>t;
+                if(t<=1e6)
+                {
+                        if(dp[t]==inf)
+                                cout<<"-1"<<endl;
+                        else
+                                cout<<dp[t]%mod<<endl;
+                        continue;
+                }
+                else
+                {
+                        __int128 ans=(__int128)inf*inf;
+                        for(int i=0;i<n;i++)
+                        {
+                                int temp=N-1000;
+                                temp/=a[i];
+                                temp*=a[i];
+                                __int128 t1=t;
+                                t1-=temp;
+                                __int128 temp1=t%a[i];
+                                __int128 cur=temp+temp1;
+                                if(dp[cur]==inf)
+                                        continue;
+                                
+                                t1-=temp1;
+
+                                __int128 dis=((__int128)w[i]*(t1/a[i]) + dp[cur]);
+                                ans=min(ans,dis);
+
+                                
+                        }
+                        cout << (ans>=(__int128)inf*inf?-1:(ll)(ans%mod)) << "\n";
+                        
+                }
+
+        }
+
+        return 0;
+}
