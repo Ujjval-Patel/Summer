@@ -1,0 +1,93 @@
+// Learner99
+// Geometry 
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#define ll long long
+
+#define mod 998244353
+
+ll gcd(ll aa,ll bb) { if(aa==0) return bb; return(bb%aa,aa); }
+
+
+int main()
+{
+    ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+   
+   ll a,b,x1,x2,y1,y2,x11,x12,x21,x22;
+    
+    cin>>a>>b>>x1>>y1>>x2>>y2;
+    
+    x11=x1+y1;
+    x12=y1-x1;
+    
+    
+    x21=x2+y2;
+    x22=y2-x2;
+    
+  //  cout<<x11<<" "<<x12<<" "<<x21<<" "<<x22<<endl;
+    
+    ll ans1,ans2;
+    if(x11*x21 >= 0)
+    {
+        if(x11<0)
+        {
+            x11*=-1;
+            x21*=-1;
+        }
+        
+        x11/=2*a;
+        x21/=2*a;
+        ans1=abs(x21-x11);
+        
+    }
+    else
+    {
+        if(x11<0)
+            x11*=-1;
+        if(x21<0)
+            x21*=-1;
+        
+        x11/=2*a;
+        x21/=2*a;
+        
+        ans1=abs(x11+x21)+1;
+    }
+  //  cout<<ans1<<endl;
+    if(x12*x22 > 0)
+    {
+        if(x12<0)
+        {
+            x12*=-1;
+            x22*=-1;
+        }
+        
+        x12/=2*b;
+        x22/=2*b;
+        ans2=abs(x12-x22);
+        
+    }
+    else
+    {
+        if(x12<0)
+            x12*=-1;
+        if(x22<0)
+            x22*=-1;
+        
+        x12/=2*b;
+        x22/=2*b;
+        
+        ans2=abs(x12+x22)+1;
+    }
+    
+    ll ans=max(ans1,ans2);
+    cout<<ans<<endl;
+    
+    
+    
+    
+    
+    return 0;
+}
