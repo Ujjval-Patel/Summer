@@ -1,0 +1,73 @@
+// Learner99 
+
+#include<bits/stdc++.h>
+ 
+using namespace std;
+ 
+int n;
+ 
+#define N 200005
+vector < int > a[N];
+int w[N], lst[N], level[N], nxt[N];
+ 
+void dfs(int n,int p)
+{
+        level[n] = level[p]+1;
+        w[n]=1;
+        lst[n] = n;
+        int temp = 0;
+ 
+        for(int i=0; i<a[n].size();i++)
+        {
+                if(a[n][i]==p)
+                        continue;
+                dfs(a[n][i], n);
+                w[n]+=w[a[n][i]];
+                if(w[a[n][i]] > temp)
+                {
+                        temp = w[a[n][i]];
+                        lst[n] = lst[a[n][i]];
+                        nxt[n] = a[n][i];
+                }
+        }
+}
+ 
+void ans(int n, int d)
+{
+        cout<<"d "<< lst[n]<<endl;
+        int temp;
+        cin>>temp;
+        int x = (level[lst[n]] + d - temp )/2;
+        int node = n;
+        while(level[node] - 1 != x)
+                node = nxt[node];
+ 
+        if(d == x)
+        {
+                cout<<"! "<<node<<endl;
+        }
+        else
+        {
+                cout<<"s "<<node<<endl;
+                cin>>node;
+                ans(node, d);
+        }
+}
+ 
+ 
+int main()
+{
+        cin>>n;
+        for(int i=1;i<n;i++)
+        {
+                int x, y;
+                cin>>x>>y;
+                a[x].push_back(y);
+                a[y].push_back(x);
+        }
+        int d;
+        cout << "d "<<1<<endl;
+        cin>>d;
+        dfs(1,0);
+        ans(1,d);
+        return 0;
