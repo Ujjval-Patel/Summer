@@ -1,5 +1,7 @@
 What is Git ?
 Git is a version control system. 
 Why we need Git ?
+We need git to manage various versions of a project in multi feature development environment
 How it works ?
+Git maintains snapshot of the project in the form of commit. Each commit refers to a snapshot of the project. 
 Is it most appropriate ?
