@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int trapRainWater(vector<vector<int>>& heightMap) {
+        int m = heightMap.size();
+        int n = heightMap[0].size();
+        vector<vector<bool> > visited(m,vector<bool> (n,false));
+        
+        auto comp = [&](const array<int,3> &a, const array<int,3> &b) {
+            return a[0] >= b[0];
+        };
+        
+        priority_queue<array<int, 3>, vector<array<int, 3>>, decltype(comp)> pq(comp);
+        
+        for(int i=0;i<m;i++) {
+            pq.push({heightMap[i][0],i,0});
+            pq.push({heightMap[i][n-1],i,n-1});
+            visited[i][0] = visited[i][n-1] = true;
+        }
+        for(int i=0;i<n;i++) {
+            pq.push({heightMap[0][i],0,i});
+            pq.push({heightMap[m-1][i],m-1,i});
+            visited[0][i] = visited[m-1][i] = true;
+        }
+        
+        vector<vector<int>> dir{{-1,0},{0,1},{1,0},{0,-1}};
+        int ans = 0;
+        while(!pq.empty()) {
+            auto [h,i,j] = pq.top();
+            pq.pop();
+            for(auto d: dir) {
+                int x = i + d[0];
+                int y = j + d[1];
+                if(x>=0 && x<m && y>=0 && y<n && !visited[x][y]) {
+                    ans += max(0,(h-heightMap[x][y]));
+                    visited[x][y] = true;
+                    pq.push({max(h,heightMap[x][y]),x,y});
+                }
+            }
+        }
+        return ans;
+    }
+};
